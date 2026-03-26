@@ -9,6 +9,11 @@ Web search tools for [pi](https://github.com/badlogic/pi). Multiple providers, p
 | [`pi-websearch-parallel`](packages/pi-websearch-parallel) | [Parallel](https://parallel.ai) | `PARALLEL_API_KEY` |
 | [`pi-websearch-brave`](packages/pi-websearch-brave) | [Brave Search](https://brave.com/search/api/) | `BRAVE_API_KEY` |
 | [`pi-websearch-exa`](packages/pi-websearch-exa) | [Exa](https://exa.ai) | `EXA_API_KEY` |
+| [`pi-websearch-tavily`](packages/pi-websearch-tavily) | [Tavily](https://tavily.com) | `TAVILY_API_KEY` |
+| [`pi-websearch-serper`](packages/pi-websearch-serper) | [Serper](https://serper.dev) (Google) | `SERPER_API_KEY` |
+| [`pi-websearch-serpapi`](packages/pi-websearch-serpapi) | [SerpAPI](https://serpapi.com) (40+ engines) | `SERPAPI_API_KEY` |
+| [`pi-websearch-perplexity`](packages/pi-websearch-perplexity) | [Perplexity Sonar](https://docs.perplexity.ai) | `PERPLEXITY_API_KEY` |
+| [`pi-websearch-linkup`](packages/pi-websearch-linkup) | [Linkup](https://linkup.so) | `LINKUP_API_KEY` |
 
 ## Usage
 

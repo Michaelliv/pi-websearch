@@ -1,0 +1,19 @@
+{
+  "name": "pi-websearch-linkup",
+  "version": "0.1.0",
+  "description": "Pi web search tool powered by Linkup",
+  "keywords": [
+    "pi-package"
+  ],
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "@sinclair/typebox": "*"
+  },
+  "pi": {
+    "extensions": [
+      ".pi/extensions/websearch-linkup"
+    ]
+  },
+  "author": "michaelliv",
+  "license": "MIT"
+}

@@ -1,0 +1,19 @@
+{
+  "name": "pi-websearch-tavily",
+  "version": "0.1.0",
+  "description": "Pi web search tool powered by Tavily",
+  "keywords": [
+    "pi-package"
+  ],
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "@sinclair/typebox": "*"
+  },
+  "pi": {
+    "extensions": [
+      ".pi/extensions/websearch-tavily"
+    ]
+  },
+  "author": "michaelliv",
+  "license": "MIT"
+}

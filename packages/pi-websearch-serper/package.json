@@ -1,0 +1,19 @@
+{
+  "name": "pi-websearch-serper",
+  "version": "0.1.0",
+  "description": "Pi web search tool powered by Serper (Google Search)",
+  "keywords": [
+    "pi-package"
+  ],
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "@sinclair/typebox": "*"
+  },
+  "pi": {
+    "extensions": [
+      ".pi/extensions/websearch-serper"
+    ]
+  },
+  "author": "michaelliv",
+  "license": "MIT"
+}
