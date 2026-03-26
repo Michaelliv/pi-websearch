@@ -1,31 +1,42 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { Type } from "@sinclair/typebox";
-import { firecrawl, formatResults } from "pi-websearch-core";
+import { allProviders, formatResults, resolveProvider } from "pi-websearch-core";
 
 const searchSchema = Type.Object({
   query: Type.String({ description: "What to search for. Be specific and descriptive." }),
   numResults: Type.Optional(Type.Number({ description: "Number of results to return (default 5, max 10)" })),
-  country: Type.Optional(Type.String({ description: "Country code for localized results" })),
-  language: Type.Optional(Type.String({ description: "Language code for results" })),
+  country: Type.Optional(Type.String({ description: "2-char country code (e.g. us, gb, de)" })),
+  language: Type.Optional(Type.String({ description: "2-char language code (e.g. en, es, fr)" })),
 });
 
 export default function (pi: ExtensionAPI) {
+  const provider = resolveProvider();
+
+  if (!provider) {
+    const keys = allProviders.map((p) => p.envKeys.join(" + ")).join(", ");
+    console.warn(`[websearch-router] No search provider configured. Set one of: ${keys}`);
+    return;
+  }
+
+  console.log(`[websearch-router] Using provider: ${provider.name}`);
+
   pi.registerTool({
     name: "web_search",
     label: "Web Search",
-    description:
-      "Search the web using Firecrawl. Returns full page content as markdown, not just snippets. Best when you need the actual content.",
+    description: `Search the web (using ${provider.name}). Returns relevant results with content.`,
     parameters: searchSchema,
+
     async execute(_toolCallId, params, _signal, _onUpdate, _ctx) {
-      const results = await firecrawl.search({
+      const results = await provider.search({
         query: params.query,
         numResults: Math.min(params.numResults ?? 5, 10),
         country: params.country,
         language: params.language,
       });
+
       return {
         content: [{ type: "text", text: formatResults(results) }],
-        details: { provider: "firecrawl", results: results.length },
+        details: { provider: provider.name, results: results.length },
       };
     },
   });

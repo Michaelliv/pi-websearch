@@ -8,9 +8,27 @@
         "@biomejs/biome": "^2.4.9",
       },
     },
+    "packages/core": {
+      "name": "pi-websearch-core",
+      "version": "0.1.0",
+    },
     "packages/pi-websearch-brave": {
       "name": "pi-websearch-brave",
       "version": "0.1.0",
+      "dependencies": {
+        "pi-websearch-core": "workspace:*",
+      },
+      "peerDependencies": {
+        "@mariozechner/pi-coding-agent": "*",
+        "@sinclair/typebox": "*",
+      },
+    },
+    "packages/pi-websearch-dataforseo": {
+      "name": "pi-websearch-dataforseo",
+      "version": "0.1.0",
+      "dependencies": {
+        "pi-websearch-core": "workspace:*",
+      },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
         "@sinclair/typebox": "*",
@@ -19,6 +37,42 @@
     "packages/pi-websearch-exa": {
       "name": "pi-websearch-exa",
       "version": "0.1.0",
+      "dependencies": {
+        "pi-websearch-core": "workspace:*",
+      },
+      "peerDependencies": {
+        "@mariozechner/pi-coding-agent": "*",
+        "@sinclair/typebox": "*",
+      },
+    },
+    "packages/pi-websearch-firecrawl": {
+      "name": "pi-websearch-firecrawl",
+      "version": "0.1.0",
+      "dependencies": {
+        "pi-websearch-core": "workspace:*",
+      },
+      "peerDependencies": {
+        "@mariozechner/pi-coding-agent": "*",
+        "@sinclair/typebox": "*",
+      },
+    },
+    "packages/pi-websearch-jina": {
+      "name": "pi-websearch-jina",
+      "version": "0.1.0",
+      "dependencies": {
+        "pi-websearch-core": "workspace:*",
+      },
+      "peerDependencies": {
+        "@mariozechner/pi-coding-agent": "*",
+        "@sinclair/typebox": "*",
+      },
+    },
+    "packages/pi-websearch-linkup": {
+      "name": "pi-websearch-linkup",
+      "version": "0.1.0",
+      "dependencies": {
+        "pi-websearch-core": "workspace:*",
+      },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
         "@sinclair/typebox": "*",
@@ -27,6 +81,86 @@
     "packages/pi-websearch-parallel": {
       "name": "pi-websearch-parallel",
       "version": "0.1.0",
+      "dependencies": {
+        "pi-websearch-core": "workspace:*",
+      },
+      "peerDependencies": {
+        "@mariozechner/pi-coding-agent": "*",
+        "@sinclair/typebox": "*",
+      },
+    },
+    "packages/pi-websearch-perplexity": {
+      "name": "pi-websearch-perplexity",
+      "version": "0.1.0",
+      "dependencies": {
+        "pi-websearch-core": "workspace:*",
+      },
+      "peerDependencies": {
+        "@mariozechner/pi-coding-agent": "*",
+        "@sinclair/typebox": "*",
+      },
+    },
+    "packages/pi-websearch-router": {
+      "name": "pi-websearch-router",
+      "version": "0.1.0",
+      "dependencies": {
+        "pi-websearch-core": "workspace:*",
+      },
+      "peerDependencies": {
+        "@mariozechner/pi-coding-agent": "*",
+        "@sinclair/typebox": "*",
+      },
+    },
+    "packages/pi-websearch-serpapi": {
+      "name": "pi-websearch-serpapi",
+      "version": "0.1.0",
+      "dependencies": {
+        "pi-websearch-core": "workspace:*",
+      },
+      "peerDependencies": {
+        "@mariozechner/pi-coding-agent": "*",
+        "@sinclair/typebox": "*",
+      },
+    },
+    "packages/pi-websearch-serper": {
+      "name": "pi-websearch-serper",
+      "version": "0.1.0",
+      "dependencies": {
+        "pi-websearch-core": "workspace:*",
+      },
+      "peerDependencies": {
+        "@mariozechner/pi-coding-agent": "*",
+        "@sinclair/typebox": "*",
+      },
+    },
+    "packages/pi-websearch-tavily": {
+      "name": "pi-websearch-tavily",
+      "version": "0.1.0",
+      "dependencies": {
+        "pi-websearch-core": "workspace:*",
+      },
+      "peerDependencies": {
+        "@mariozechner/pi-coding-agent": "*",
+        "@sinclair/typebox": "*",
+      },
+    },
+    "packages/pi-websearch-valyu": {
+      "name": "pi-websearch-valyu",
+      "version": "0.1.0",
+      "dependencies": {
+        "pi-websearch-core": "workspace:*",
+      },
+      "peerDependencies": {
+        "@mariozechner/pi-coding-agent": "*",
+        "@sinclair/typebox": "*",
+      },
+    },
+    "packages/pi-websearch-you": {
+      "name": "pi-websearch-you",
+      "version": "0.1.0",
+      "dependencies": {
+        "pi-websearch-core": "workspace:*",
+      },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
         "@sinclair/typebox": "*",
@@ -472,9 +606,33 @@
 
     "pi-websearch-brave": ["pi-websearch-brave@workspace:packages/pi-websearch-brave"],
 
+    "pi-websearch-core": ["pi-websearch-core@workspace:packages/core"],
+
+    "pi-websearch-dataforseo": ["pi-websearch-dataforseo@workspace:packages/pi-websearch-dataforseo"],
+
     "pi-websearch-exa": ["pi-websearch-exa@workspace:packages/pi-websearch-exa"],
 
+    "pi-websearch-firecrawl": ["pi-websearch-firecrawl@workspace:packages/pi-websearch-firecrawl"],
+
+    "pi-websearch-jina": ["pi-websearch-jina@workspace:packages/pi-websearch-jina"],
+
+    "pi-websearch-linkup": ["pi-websearch-linkup@workspace:packages/pi-websearch-linkup"],
+
     "pi-websearch-parallel": ["pi-websearch-parallel@workspace:packages/pi-websearch-parallel"],
+
+    "pi-websearch-perplexity": ["pi-websearch-perplexity@workspace:packages/pi-websearch-perplexity"],
+
+    "pi-websearch-router": ["pi-websearch-router@workspace:packages/pi-websearch-router"],
+
+    "pi-websearch-serpapi": ["pi-websearch-serpapi@workspace:packages/pi-websearch-serpapi"],
+
+    "pi-websearch-serper": ["pi-websearch-serper@workspace:packages/pi-websearch-serper"],
+
+    "pi-websearch-tavily": ["pi-websearch-tavily@workspace:packages/pi-websearch-tavily"],
+
+    "pi-websearch-valyu": ["pi-websearch-valyu@workspace:packages/pi-websearch-valyu"],
+
+    "pi-websearch-you": ["pi-websearch-you@workspace:packages/pi-websearch-you"],
 
     "proper-lockfile": ["proper-lockfile@4.1.2", "", { "dependencies": { "graceful-fs": "^4.2.4", "retry": "^0.12.0", "signal-exit": "^3.0.2" } }, "sha512-TjNPblN4BwAWMXU8s9AEz4JmQxnD1NNL7bNOY/AKUzyamc379FWASUhc/K1pL2noVb+XmZKLL68cjzLsiOAMaA=="],
 

@@ -1,0 +1,7 @@
+{
+  "name": "pi-websearch-core",
+  "version": "0.1.0",
+  "description": "Shared types and provider implementations for pi-websearch",
+  "main": "src/index.ts",
+  "license": "MIT"
+}

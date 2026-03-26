@@ -1,0 +1,22 @@
+{
+  "name": "pi-websearch-router",
+  "version": "0.1.0",
+  "description": "Pi web search tool that auto-detects available API keys and routes to the right provider",
+  "keywords": [
+    "pi-package"
+  ],
+  "dependencies": {
+    "pi-websearch-core": "workspace:*"
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "@sinclair/typebox": "*"
+  },
+  "pi": {
+    "extensions": [
+      ".pi/extensions/websearch-router"
+    ]
+  },
+  "author": "michaelliv",
+  "license": "MIT"
+}

@@ -15,5 +15,8 @@
     ]
   },
   "author": "michaelliv",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "pi-websearch-core": "workspace:*"
+  }
 }
