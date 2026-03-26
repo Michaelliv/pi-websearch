@@ -4,18 +4,18 @@ Web search tools for [pi](https://github.com/badlogic/pi). Multiple providers, p
 
 ## Packages
 
-| Package | Provider |
-|---------|----------|
-| `pi-search-parallel` | [Parallel](https://parallel.ai) |
-| `pi-search-brave` | [Brave Search](https://brave.com/search/api/) |
-| `pi-search-exa` | [Exa](https://exa.ai) |
+| Package | Provider | Env var |
+|---------|----------|---------|
+| [`pi-websearch-parallel`](packages/pi-websearch-parallel) | [Parallel](https://parallel.ai) | `PARALLEL_API_KEY` |
+| [`pi-websearch-brave`](packages/pi-websearch-brave) | [Brave Search](https://brave.com/search/api/) | `BRAVE_API_KEY` |
+| [`pi-websearch-exa`](packages/pi-websearch-exa) | [Exa](https://exa.ai) | `EXA_API_KEY` |
 
 ## Usage
 
 Install any provider as a pi package:
 
 ```bash
-pi install pi-search-parallel
+pi install pi-websearch-parallel
 ```
 
 Set your API key:
@@ -24,4 +24,4 @@ Set your API key:
 export PARALLEL_API_KEY=...
 ```
 
-The search tool is now available to the agent.
+The `web_search` tool is now available to the agent. Only install one - they all register the same tool name.
