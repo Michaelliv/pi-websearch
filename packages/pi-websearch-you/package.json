@@ -1,0 +1,19 @@
+{
+  "name": "pi-websearch-you",
+  "version": "0.1.0",
+  "description": "Pi web search tool powered by You.com",
+  "keywords": [
+    "pi-package"
+  ],
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "@sinclair/typebox": "*"
+  },
+  "pi": {
+    "extensions": [
+      ".pi/extensions/websearch-you"
+    ]
+  },
+  "author": "michaelliv",
+  "license": "MIT"
+}
