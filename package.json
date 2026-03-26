@@ -1,5 +1,13 @@
 {
   "name": "pi-websearch",
   "private": true,
-  "workspaces": ["packages/*"]
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "lint": "biome check packages/",
+    "lint:fix": "biome check --write packages/",
+    "check": "bunx tsc --noEmit && biome check packages/"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.9"
+  }
 }
