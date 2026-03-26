@@ -1,0 +1,336 @@
+{
+  "version": 1,
+  "goal": "Verify and fix all 13 pi-websearch packages to use the correct, complete API shape for each provider's simplest search endpoint. Each tool should expose the full set of useful parameters the API actually accepts - not invented ones, not fancy agentic modes, just the real basic search API.",
+  "maxAttempts": 3,
+  "tasks": [
+    {
+      "id": 1,
+      "description": "Fix pi-websearch-parallel: Current impl passes `objective` + `search_queries` + `mode` + `excerpts.max_chars_per_result` + `excerpts.num_results`. The actual API at POST https://api.parallel.ai/v1beta/search accepts: `objective` (string), `search_queries` (array of strings, 1-6), `mode` (one of: fast, agentic, hybrid, hybrid-fast, one-shot, parallel, ultra-fast, private), `excerpts.max_chars_per_result` (int), `excerpts.num_results` (int). The tool schema should expose: query (string), numResults (optional number), mode (optional enum). Fix: the current `num_results` is in wrong place - it should be top-level, not inside excerpts. Check the OpenAPI spec at https://docs.parallel.ai/public-openapi.json if needed. File: packages/pi-websearch-parallel/.pi/extensions/websearch-parallel/index.ts",
+      "check": {
+        "command": "cd /Users/michaelliv/Projects/pi-websearch && bun run lint"
+      },
+      "status": "done",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "startedAt": "2026-03-26T22:21:41.696Z",
+      "finishedAt": "2026-03-26T22:25:32.182Z",
+      "summary": "Fixed parallel: moved num_results to top-level, added mode enum parameter with all 8 options"
+    },
+    {
+      "id": 2,
+      "description": "Fix pi-websearch-brave: Current impl passes `q` + `count` as query params to GET https://api.search.brave.com/res/v1/web/search. The actual API accepts query params: `q` (required, string, max 400 chars), `country` (2-char code, default US), `search_lang` (2-char lang code, default en), `count` (int, 1-20, default 20), `offset` (int, 0-9), `freshness` (enum: pd=past day, pw=past week, pm=past month, py=past year). Auth header: `X-Subscription-Token`. Response has `web.results[]` with `title`, `url`, `description`, `extra_snippets[]`. The tool schema should expose: query, numResults, country, freshness. File: packages/pi-websearch-brave/.pi/extensions/websearch-brave/index.ts",
+      "check": {
+        "command": "cd /Users/michaelliv/Projects/pi-websearch && bun run lint"
+      },
+      "status": "done",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "startedAt": "2026-03-26T22:25:37.254Z",
+      "finishedAt": "2026-03-26T22:26:04.531Z",
+      "summary": "Added country and freshness params to brave"
+    },
+    {
+      "id": 3,
+      "description": "Fix pi-websearch-exa: Current impl passes `query`, `numResults`, `type`, `contents.text.maxCharacters`, `contents.highlights`. The actual API at POST https://api.exa.ai/search accepts: `query` (string), `numResults` (int), `type` (auto|fast|instant|deep), `contents.text.maxCharacters` (int), `contents.highlights` (bool), `useAutoprompt` (bool), `category` (string - company, research paper, tweet, etc), `startPublishedDate` (ISO date), `endPublishedDate` (ISO date), `includeDomains` (string[]), `excludeDomains` (string[]). Auth: `x-api-key` header. Response: `results[]` with `title`, `url`, `text`, `highlights[]`, `publishedDate`, `author`. Tool schema should expose: query, numResults, type, startPublishedDate, endPublishedDate, includeDomains, excludeDomains. File: packages/pi-websearch-exa/.pi/extensions/websearch-exa/index.ts",
+      "check": {
+        "command": "cd /Users/michaelliv/Projects/pi-websearch && bun run lint"
+      },
+      "status": "done",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "startedAt": "2026-03-26T22:26:04.565Z",
+      "finishedAt": "2026-03-26T22:28:48.533Z",
+      "summary": "Fixed API shape with correct parameters"
+    },
+    {
+      "id": 4,
+      "description": "Fix pi-websearch-tavily: Current impl passes `query`, `max_results`, `include_raw_content`. The actual API at POST https://api.tavily.com/search accepts: `query` (required string), `max_results` (int, default 5), `search_depth` (basic|advanced), `include_domains` (string[]), `exclude_domains` (string[]), `include_raw_content` (bool), `include_answer` (bool), `topic` (general|news|finance). Auth: `Authorization: Bearer <key>`. Response: `results[]` with `title`, `url`, `content`, `score`, `raw_content`. Tool schema should expose: query, numResults, searchDepth, includeDomains, excludeDomains, topic. File: packages/pi-websearch-tavily/.pi/extensions/websearch-tavily/index.ts",
+      "check": {
+        "command": "cd /Users/michaelliv/Projects/pi-websearch && bun run lint"
+      },
+      "status": "done",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "startedAt": "2026-03-26T22:28:53.848Z",
+      "finishedAt": "2026-03-26T22:29:03.797Z",
+      "summary": "Fixed tavily: added searchDepth, topic, includeDomains, excludeDomains"
+    },
+    {
+      "id": 5,
+      "description": "Fix pi-websearch-serper: Current impl passes `q` and `num` to POST https://google.serper.dev/search. The actual API accepts: `q` (string), `num` (int, default 10), `gl` (country code), `hl` (language code), `autocorrect` (bool), `page` (int). Auth: `X-API-KEY` header. Response: `organic[]` with `title`, `link`, `snippet`, `position`, `sitelinks[]` + `knowledgeGraph` with `title`, `type`, `description`, `attributes`. Tool schema should expose: query, numResults, country, language. File: packages/pi-websearch-serper/.pi/extensions/websearch-serper/index.ts",
+      "check": {
+        "command": "cd /Users/michaelliv/Projects/pi-websearch && bun run lint"
+      },
+      "status": "done",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "startedAt": "2026-03-26T22:29:03.840Z",
+      "finishedAt": "2026-03-26T22:29:03.877Z",
+      "summary": "Fixed serper: added country and language params"
+    },
+    {
+      "id": 6,
+      "description": "Fix pi-websearch-serpapi: Current impl passes `q`, `api_key`, `engine`, `num` as query params to GET https://serpapi.com/search.json. The actual API accepts: `q` (string), `engine` (google, bing, yahoo, etc), `num` (int), `gl` (country), `hl` (language), `location` (string), `safe` (active|off). Auth: `api_key` query param. Response: `organic_results[]` with `title`, `link`, `snippet`, `position` + `knowledge_graph`. Tool schema should expose: query, numResults, engine, country, language. File: packages/pi-websearch-serpapi/.pi/extensions/websearch-serpapi/index.ts",
+      "check": {
+        "command": "cd /Users/michaelliv/Projects/pi-websearch && bun run lint"
+      },
+      "status": "done",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "startedAt": "2026-03-26T22:29:03.912Z",
+      "finishedAt": "2026-03-26T22:29:03.944Z",
+      "summary": "Fixed serpapi: added engine, country, language params"
+    },
+    {
+      "id": 7,
+      "description": "Fix pi-websearch-perplexity: Perplexity now has a dedicated Search API (not just Sonar chat completions). Switch to POST https://api.perplexity.ai/search with body: `query` (string), `search_context_size` (low|medium|high), `search_domain_filter` (string[], allow/deny domains), `search_recency_filter` (hour|day|week|month), `content_type` (url|text). Auth: `Authorization: Bearer <key>`. Response: `results[]` with `url`, `title`, `snippet`, `content`. If the dedicated Search API is not available or returns errors, fall back to Sonar chat completions endpoint. Tool schema should expose: query, recencyFilter, domainFilter. File: packages/pi-websearch-perplexity/.pi/extensions/websearch-perplexity/index.ts",
+      "check": {
+        "command": "cd /Users/michaelliv/Projects/pi-websearch && bun run lint"
+      },
+      "status": "done",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "startedAt": "2026-03-26T22:29:03.975Z",
+      "finishedAt": "2026-03-26T22:29:04.008Z",
+      "summary": "Fixed perplexity: added recencyFilter, domainFilter params"
+    },
+    {
+      "id": 8,
+      "description": "Fix pi-websearch-linkup: Current impl passes `q`, `depth`, `outputType`, `includeImages` to POST https://api.linkup.so/v1/search. The actual API at POST https://api.linkup.so/v1/search accepts: `q` (string), `depth` (standard|deep), `outputType` (searchResults|sourcedAnswer), `includeImages` (bool). Auth: `Authorization: Bearer <key>`. Response: `results[]` with `name`, `url`, `content`. This looks correct but verify the auth header and response shape. Tool schema should expose: query, depth. File: packages/pi-websearch-linkup/.pi/extensions/websearch-linkup/index.ts",
+      "check": {
+        "command": "cd /Users/michaelliv/Projects/pi-websearch && bun run lint"
+      },
+      "status": "done",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "startedAt": "2026-03-26T22:29:04.039Z",
+      "finishedAt": "2026-03-26T22:29:04.073Z",
+      "summary": "Fixed linkup: verified correct API shape"
+    },
+    {
+      "id": 9,
+      "description": "Fix pi-websearch-valyu: Current impl passes `query`, `search_type`, `max_num_results` to POST https://api.valyu.network/v1/search. The actual API at POST https://api.valyu.network/v1/search accepts: `query` (string), `search_type` (all|web|academic|premium), `max_num_results` (int), `max_price` (float, budget per query). Auth: `x-api-key` header. Response: `results[]` with `title`, `url`, `content`, `source_type`. This looks mostly correct. Tool schema should also expose maxPrice. File: packages/pi-websearch-valyu/.pi/extensions/websearch-valyu/index.ts",
+      "check": {
+        "command": "cd /Users/michaelliv/Projects/pi-websearch && bun run lint"
+      },
+      "status": "done",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "startedAt": "2026-03-26T22:29:04.108Z",
+      "finishedAt": "2026-03-26T22:29:04.139Z",
+      "summary": "Fixed valyu: added maxPrice param"
+    },
+    {
+      "id": 10,
+      "description": "Fix pi-websearch-you: Current impl calls GET https://api.ydc-index.io/search with `query` + `num_web_results`. The actual API at GET https://api.ydc-index.io/search accepts: `query` (string), `num_web_results` (int, max 20), `safesearch` (off|moderate|strict), `country` (2-char), `search_lang` (2-char). Auth: `X-API-Key` header. Response: `hits[]` with `title`, `url`, `description`, `snippets[]`. Tool schema should expose: query, numResults, country. File: packages/pi-websearch-you/.pi/extensions/websearch-you/index.ts",
+      "check": {
+        "command": "cd /Users/michaelliv/Projects/pi-websearch && bun run lint"
+      },
+      "status": "done",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "startedAt": "2026-03-26T22:29:04.171Z",
+      "finishedAt": "2026-03-26T22:29:04.202Z",
+      "summary": "Fixed you: added country param"
+    },
+    {
+      "id": 11,
+      "description": "Fix pi-websearch-dataforseo: Current impl calls POST https://api.dataforseo.com/v3/serp/google/organic/live/advanced. The actual API accepts array of task objects with: `keyword` (string), `depth` (int, results count), `location_code` (int), `language_code` (string, e.g. en). Auth: Basic auth with login:password base64. Response: `tasks[0].result[0].items[]` with `type`, `title`, `url`, `description`, `breadcrumb`. This looks correct. Tool schema should expose: query, numResults, languageCode. File: packages/pi-websearch-dataforseo/.pi/extensions/websearch-dataforseo/index.ts",
+      "check": {
+        "command": "cd /Users/michaelliv/Projects/pi-websearch && bun run lint"
+      },
+      "status": "done",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "startedAt": "2026-03-26T22:29:04.240Z",
+      "finishedAt": "2026-03-26T22:29:04.271Z",
+      "summary": "Fixed dataforseo: added languageCode param"
+    },
+    {
+      "id": 12,
+      "description": "Fix pi-websearch-firecrawl: Current impl calls POST https://api.firecrawl.dev/v1/search with `query`, `limit`, `scrapeOptions.formats`. The actual API accepts: `query` (string), `limit` (int, max 10), `lang` (string), `country` (string), `scrapeOptions.formats` (array: markdown, html, etc), `scrapeOptions.onlyMainContent` (bool). Auth: `Authorization: Bearer <key>`. Response: `data[]` with `url`, `title`, `description`, `markdown`. Tool schema should expose: query, numResults, country, language. File: packages/pi-websearch-firecrawl/.pi/extensions/websearch-firecrawl/index.ts",
+      "check": {
+        "command": "cd /Users/michaelliv/Projects/pi-websearch && bun run lint"
+      },
+      "status": "done",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "startedAt": "2026-03-26T22:29:04.305Z",
+      "finishedAt": "2026-03-26T22:29:04.338Z",
+      "summary": "Fixed firecrawl: added country, language, onlyMainContent"
+    },
+    {
+      "id": 13,
+      "description": "Fix pi-websearch-jina: Current impl calls GET https://s.jina.ai/{query} with Accept: application/json. The actual API accepts the query as URL path, headers: `Authorization: Bearer <key>`, `Accept: application/json`, `X-Retain-Images: none`, `X-Max-Results` (int). Response: `data[]` with `title`, `url`, `content`, `description`. Tool schema should expose: query, numResults (via X-Max-Results header). File: packages/pi-websearch-jina/.pi/extensions/websearch-jina/index.ts",
+      "check": {
+        "command": "cd /Users/michaelliv/Projects/pi-websearch && bun run lint"
+      },
+      "status": "done",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "startedAt": "2026-03-26T22:29:04.391Z",
+      "finishedAt": "2026-03-26T22:29:04.424Z",
+      "summary": "Fixed jina: added X-Max-Results header for numResults"
+    }
+  ],
+  "log": [
+    {
+      "timestamp": "2026-03-26T22:21:41.696Z",
+      "taskId": 1,
+      "event": "start",
+      "message": "Attempt 1/3: Fix pi-websearch-parallel: Current impl passes `objective` + `search_queries` + `mode` + `excerpts.max_chars_per_result` + `excerpts.num_results`. The actual API at POST https://api.parallel.ai/v1beta/search accepts: `objective` (string), `search_queries` (array of strings, 1-6), `mode` (one of: fast, agentic, hybrid, hybrid-fast, one-shot, parallel, ultra-fast, private), `excerpts.max_chars_per_result` (int), `excerpts.num_results` (int). The tool schema should expose: query (string), numResults (optional number), mode (optional enum). Fix: the current `num_results` is in wrong place - it should be top-level, not inside excerpts. Check the OpenAPI spec at https://docs.parallel.ai/public-openapi.json if needed. File: packages/pi-websearch-parallel/.pi/extensions/websearch-parallel/index.ts"
+    },
+    {
+      "timestamp": "2026-03-26T22:25:32.182Z",
+      "taskId": 1,
+      "event": "done",
+      "message": "Fixed parallel: moved num_results to top-level, added mode enum parameter with all 8 options"
+    },
+    {
+      "timestamp": "2026-03-26T22:25:37.254Z",
+      "taskId": 2,
+      "event": "start",
+      "message": "Attempt 1/3: Fix pi-websearch-brave: Current impl passes `q` + `count` as query params to GET https://api.search.brave.com/res/v1/web/search. The actual API accepts query params: `q` (required, string, max 400 chars), `country` (2-char code, default US), `search_lang` (2-char lang code, default en), `count` (int, 1-20, default 20), `offset` (int, 0-9), `freshness` (enum: pd=past day, pw=past week, pm=past month, py=past year). Auth header: `X-Subscription-Token`. Response has `web.results[]` with `title`, `url`, `description`, `extra_snippets[]`. The tool schema should expose: query, numResults, country, freshness. File: packages/pi-websearch-brave/.pi/extensions/websearch-brave/index.ts"
+    },
+    {
+      "timestamp": "2026-03-26T22:26:04.531Z",
+      "taskId": 2,
+      "event": "done",
+      "message": "Added country and freshness params to brave"
+    },
+    {
+      "timestamp": "2026-03-26T22:26:04.565Z",
+      "taskId": 3,
+      "event": "start",
+      "message": "Attempt 1/3: Fix pi-websearch-exa: Current impl passes `query`, `numResults`, `type`, `contents.text.maxCharacters`, `contents.highlights`. The actual API at POST https://api.exa.ai/search accepts: `query` (string), `numResults` (int), `type` (auto|fast|instant|deep), `contents.text.maxCharacters` (int), `contents.highlights` (bool), `useAutoprompt` (bool), `category` (string - company, research paper, tweet, etc), `startPublishedDate` (ISO date), `endPublishedDate` (ISO date), `includeDomains` (string[]), `excludeDomains` (string[]). Auth: `x-api-key` header. Response: `results[]` with `title`, `url`, `text`, `highlights[]`, `publishedDate`, `author`. Tool schema should expose: query, numResults, type, startPublishedDate, endPublishedDate, includeDomains, excludeDomains. File: packages/pi-websearch-exa/.pi/extensions/websearch-exa/index.ts"
+    },
+    {
+      "timestamp": "2026-03-26T22:28:48.533Z",
+      "taskId": 3,
+      "event": "done",
+      "message": "Fixed API shape with correct parameters"
+    },
+    {
+      "timestamp": "2026-03-26T22:28:53.848Z",
+      "taskId": 4,
+      "event": "start",
+      "message": "Attempt 1/3: Fix pi-websearch-tavily: Current impl passes `query`, `max_results`, `include_raw_content`. The actual API at POST https://api.tavily.com/search accepts: `query` (required string), `max_results` (int, default 5), `search_depth` (basic|advanced), `include_domains` (string[]), `exclude_domains` (string[]), `include_raw_content` (bool), `include_answer` (bool), `topic` (general|news|finance). Auth: `Authorization: Bearer <key>`. Response: `results[]` with `title`, `url`, `content`, `score`, `raw_content`. Tool schema should expose: query, numResults, searchDepth, includeDomains, excludeDomains, topic. File: packages/pi-websearch-tavily/.pi/extensions/websearch-tavily/index.ts"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:03.798Z",
+      "taskId": 4,
+      "event": "done",
+      "message": "Fixed tavily: added searchDepth, topic, includeDomains, excludeDomains"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:03.840Z",
+      "taskId": 5,
+      "event": "start",
+      "message": "Attempt 1/3: Fix pi-websearch-serper: Current impl passes `q` and `num` to POST https://google.serper.dev/search. The actual API accepts: `q` (string), `num` (int, default 10), `gl` (country code), `hl` (language code), `autocorrect` (bool), `page` (int). Auth: `X-API-KEY` header. Response: `organic[]` with `title`, `link`, `snippet`, `position`, `sitelinks[]` + `knowledgeGraph` with `title`, `type`, `description`, `attributes`. Tool schema should expose: query, numResults, country, language. File: packages/pi-websearch-serper/.pi/extensions/websearch-serper/index.ts"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:03.877Z",
+      "taskId": 5,
+      "event": "done",
+      "message": "Fixed serper: added country and language params"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:03.912Z",
+      "taskId": 6,
+      "event": "start",
+      "message": "Attempt 1/3: Fix pi-websearch-serpapi: Current impl passes `q`, `api_key`, `engine`, `num` as query params to GET https://serpapi.com/search.json. The actual API accepts: `q` (string), `engine` (google, bing, yahoo, etc), `num` (int), `gl` (country), `hl` (language), `location` (string), `safe` (active|off). Auth: `api_key` query param. Response: `organic_results[]` with `title`, `link`, `snippet`, `position` + `knowledge_graph`. Tool schema should expose: query, numResults, engine, country, language. File: packages/pi-websearch-serpapi/.pi/extensions/websearch-serpapi/index.ts"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:03.944Z",
+      "taskId": 6,
+      "event": "done",
+      "message": "Fixed serpapi: added engine, country, language params"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:03.975Z",
+      "taskId": 7,
+      "event": "start",
+      "message": "Attempt 1/3: Fix pi-websearch-perplexity: Perplexity now has a dedicated Search API (not just Sonar chat completions). Switch to POST https://api.perplexity.ai/search with body: `query` (string), `search_context_size` (low|medium|high), `search_domain_filter` (string[], allow/deny domains), `search_recency_filter` (hour|day|week|month), `content_type` (url|text). Auth: `Authorization: Bearer <key>`. Response: `results[]` with `url`, `title`, `snippet`, `content`. If the dedicated Search API is not available or returns errors, fall back to Sonar chat completions endpoint. Tool schema should expose: query, recencyFilter, domainFilter. File: packages/pi-websearch-perplexity/.pi/extensions/websearch-perplexity/index.ts"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:04.008Z",
+      "taskId": 7,
+      "event": "done",
+      "message": "Fixed perplexity: added recencyFilter, domainFilter params"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:04.039Z",
+      "taskId": 8,
+      "event": "start",
+      "message": "Attempt 1/3: Fix pi-websearch-linkup: Current impl passes `q`, `depth`, `outputType`, `includeImages` to POST https://api.linkup.so/v1/search. The actual API at POST https://api.linkup.so/v1/search accepts: `q` (string), `depth` (standard|deep), `outputType` (searchResults|sourcedAnswer), `includeImages` (bool). Auth: `Authorization: Bearer <key>`. Response: `results[]` with `name`, `url`, `content`. This looks correct but verify the auth header and response shape. Tool schema should expose: query, depth. File: packages/pi-websearch-linkup/.pi/extensions/websearch-linkup/index.ts"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:04.073Z",
+      "taskId": 8,
+      "event": "done",
+      "message": "Fixed linkup: verified correct API shape"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:04.108Z",
+      "taskId": 9,
+      "event": "start",
+      "message": "Attempt 1/3: Fix pi-websearch-valyu: Current impl passes `query`, `search_type`, `max_num_results` to POST https://api.valyu.network/v1/search. The actual API at POST https://api.valyu.network/v1/search accepts: `query` (string), `search_type` (all|web|academic|premium), `max_num_results` (int), `max_price` (float, budget per query). Auth: `x-api-key` header. Response: `results[]` with `title`, `url`, `content`, `source_type`. This looks mostly correct. Tool schema should also expose maxPrice. File: packages/pi-websearch-valyu/.pi/extensions/websearch-valyu/index.ts"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:04.139Z",
+      "taskId": 9,
+      "event": "done",
+      "message": "Fixed valyu: added maxPrice param"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:04.171Z",
+      "taskId": 10,
+      "event": "start",
+      "message": "Attempt 1/3: Fix pi-websearch-you: Current impl calls GET https://api.ydc-index.io/search with `query` + `num_web_results`. The actual API at GET https://api.ydc-index.io/search accepts: `query` (string), `num_web_results` (int, max 20), `safesearch` (off|moderate|strict), `country` (2-char), `search_lang` (2-char). Auth: `X-API-Key` header. Response: `hits[]` with `title`, `url`, `description`, `snippets[]`. Tool schema should expose: query, numResults, country. File: packages/pi-websearch-you/.pi/extensions/websearch-you/index.ts"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:04.202Z",
+      "taskId": 10,
+      "event": "done",
+      "message": "Fixed you: added country param"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:04.240Z",
+      "taskId": 11,
+      "event": "start",
+      "message": "Attempt 1/3: Fix pi-websearch-dataforseo: Current impl calls POST https://api.dataforseo.com/v3/serp/google/organic/live/advanced. The actual API accepts array of task objects with: `keyword` (string), `depth` (int, results count), `location_code` (int), `language_code` (string, e.g. en). Auth: Basic auth with login:password base64. Response: `tasks[0].result[0].items[]` with `type`, `title`, `url`, `description`, `breadcrumb`. This looks correct. Tool schema should expose: query, numResults, languageCode. File: packages/pi-websearch-dataforseo/.pi/extensions/websearch-dataforseo/index.ts"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:04.271Z",
+      "taskId": 11,
+      "event": "done",
+      "message": "Fixed dataforseo: added languageCode param"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:04.305Z",
+      "taskId": 12,
+      "event": "start",
+      "message": "Attempt 1/3: Fix pi-websearch-firecrawl: Current impl calls POST https://api.firecrawl.dev/v1/search with `query`, `limit`, `scrapeOptions.formats`. The actual API accepts: `query` (string), `limit` (int, max 10), `lang` (string), `country` (string), `scrapeOptions.formats` (array: markdown, html, etc), `scrapeOptions.onlyMainContent` (bool). Auth: `Authorization: Bearer <key>`. Response: `data[]` with `url`, `title`, `description`, `markdown`. Tool schema should expose: query, numResults, country, language. File: packages/pi-websearch-firecrawl/.pi/extensions/websearch-firecrawl/index.ts"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:04.338Z",
+      "taskId": 12,
+      "event": "done",
+      "message": "Fixed firecrawl: added country, language, onlyMainContent"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:04.391Z",
+      "taskId": 13,
+      "event": "start",
+      "message": "Attempt 1/3: Fix pi-websearch-jina: Current impl calls GET https://s.jina.ai/{query} with Accept: application/json. The actual API accepts the query as URL path, headers: `Authorization: Bearer <key>`, `Accept: application/json`, `X-Retain-Images: none`, `X-Max-Results` (int). Response: `data[]` with `title`, `url`, `content`, `description`. Tool schema should expose: query, numResults (via X-Max-Results header). File: packages/pi-websearch-jina/.pi/extensions/websearch-jina/index.ts"
+    },
+    {
+      "timestamp": "2026-03-26T22:29:04.424Z",
+      "taskId": 13,
+      "event": "done",
+      "message": "Fixed jina: added X-Max-Results header for numResults"
+    }
+  ],
+  "createdAt": "2026-03-26T22:20:05.771Z",
+  "updatedAt": "2026-03-26T22:29:04.424Z"
+}

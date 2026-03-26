@@ -6,9 +6,10 @@ const searchSchema = Type.Object({
   numResults: Type.Optional(Type.Number({ description: "Number of results to return (default 5, max 10)" })),
   searchType: Type.Optional(
     Type.Union([Type.Literal("all"), Type.Literal("web"), Type.Literal("academic"), Type.Literal("premium")], {
-      description: "Source type: 'all', 'web', 'academic', or 'premium' (default: all)",
+      description: "Source type: all, web, academic, or premium. Default: all",
     }),
   ),
+  maxPrice: Type.Optional(Type.Number({ description: "Maximum budget per query in USD" })),
 });
 
 interface ValyuResult {
@@ -18,15 +19,20 @@ interface ValyuResult {
   source_type?: string;
 }
 
-async function search(apiKey: string, query: string, numResults: number, searchType: string): Promise<ValyuResult[]> {
+async function search(
+  apiKey: string,
+  query: string,
+  numResults: number,
+  searchType: string,
+  maxPrice?: number,
+): Promise<ValyuResult[]> {
+  const body: Record<string, unknown> = { query, search_type: searchType, max_num_results: numResults };
+  if (maxPrice !== undefined) body.max_price = maxPrice;
+
   const res = await fetch("https://api.valyu.network/v1/search", {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-api-key": apiKey },
-    body: JSON.stringify({
-      query,
-      search_type: searchType,
-      max_num_results: numResults,
-    }),
+    body: JSON.stringify(body),
   });
 
   if (!res.ok) {
@@ -63,7 +69,7 @@ export default function (pi: ExtensionAPI) {
 
       const numResults = Math.min(params.numResults ?? 5, 10);
       const searchType = params.searchType ?? "all";
-      const results = await search(apiKey, params.query, numResults, searchType);
+      const results = await search(apiKey, params.query, numResults, searchType, params.maxPrice);
 
       return {
         content: [{ type: "text", text: formatResults(results) }],

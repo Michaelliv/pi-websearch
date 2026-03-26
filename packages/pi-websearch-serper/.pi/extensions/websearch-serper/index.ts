@@ -3,14 +3,15 @@ import { Type } from "@sinclair/typebox";
 
 const searchSchema = Type.Object({
   query: Type.String({ description: "What to search for. Be specific and descriptive." }),
-  numResults: Type.Optional(Type.Number({ description: "Number of results to return (default 5, max 10)" })),
+  numResults: Type.Optional(Type.Number({ description: "Number of results to return (default 10)" })),
+  country: Type.Optional(Type.String({ description: "2-char country code (e.g. us, gb, de)" })),
+  language: Type.Optional(Type.String({ description: "2-char language code (e.g. en, es, fr)" })),
 });
 
 interface SerperResult {
   title: string;
   link: string;
   snippet: string;
-  position: number;
 }
 
 interface SerperKnowledgeGraph {
@@ -24,11 +25,17 @@ async function search(
   apiKey: string,
   query: string,
   num: number,
+  gl?: string,
+  hl?: string,
 ): Promise<{ organic: SerperResult[]; knowledgeGraph?: SerperKnowledgeGraph }> {
+  const body: Record<string, unknown> = { q: query, num };
+  if (gl) body.gl = gl;
+  if (hl) body.hl = hl;
+
   const res = await fetch("https://google.serper.dev/search", {
     method: "POST",
     headers: { "Content-Type": "application/json", "X-API-KEY": apiKey },
-    body: JSON.stringify({ q: query, num }),
+    body: JSON.stringify(body),
   });
 
   if (!res.ok) {
@@ -73,8 +80,8 @@ export default function (pi: ExtensionAPI) {
       const apiKey = process.env.SERPER_API_KEY;
       if (!apiKey) throw new Error("SERPER_API_KEY not set");
 
-      const num = Math.min(params.numResults ?? 5, 10);
-      const { organic, knowledgeGraph } = await search(apiKey, params.query, num);
+      const num = Math.min(params.numResults ?? 10, 10);
+      const { organic, knowledgeGraph } = await search(apiKey, params.query, num, params.country, params.language);
 
       return {
         content: [{ type: "text", text: formatResults(organic, knowledgeGraph) }],

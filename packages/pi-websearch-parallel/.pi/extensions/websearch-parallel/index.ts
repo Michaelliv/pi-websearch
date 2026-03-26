@@ -4,6 +4,21 @@ import { Type } from "@sinclair/typebox";
 const searchSchema = Type.Object({
   query: Type.String({ description: "What to search for. Be specific and descriptive." }),
   numResults: Type.Optional(Type.Number({ description: "Number of results to return (default 5, max 10)" })),
+  mode: Type.Optional(
+    Type.Union(
+      [
+        Type.Literal("fast"),
+        Type.Literal("agentic"),
+        Type.Literal("hybrid"),
+        Type.Literal("hybrid-fast"),
+        Type.Literal("one-shot"),
+        Type.Literal("parallel"),
+        Type.Literal("ultra-fast"),
+        Type.Literal("private"),
+      ],
+      { description: "Search mode (default: fast)" },
+    ),
+  ),
 });
 
 interface ParallelResult {
@@ -12,15 +27,16 @@ interface ParallelResult {
   excerpts: string[];
 }
 
-async function search(apiKey: string, query: string, numResults: number): Promise<ParallelResult[]> {
+async function search(apiKey: string, query: string, numResults: number, mode: string): Promise<ParallelResult[]> {
   const res = await fetch("https://api.parallel.ai/v1beta/search", {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-api-key": apiKey },
     body: JSON.stringify({
       objective: query,
       search_queries: [query],
-      mode: "fast",
-      excerpts: { max_chars_per_result: 3000, num_results: numResults },
+      mode,
+      num_results: numResults,
+      excerpts: { max_chars_per_result: 3000 },
     }),
   });
 
@@ -56,7 +72,8 @@ export default function (pi: ExtensionAPI) {
       if (!apiKey) throw new Error("PARALLEL_API_KEY not set");
 
       const numResults = Math.min(params.numResults ?? 5, 10);
-      const results = await search(apiKey, params.query, numResults);
+      const mode = params.mode ?? "fast";
+      const results = await search(apiKey, params.query, numResults, mode);
 
       return {
         content: [{ type: "text", text: formatResults(results) }],

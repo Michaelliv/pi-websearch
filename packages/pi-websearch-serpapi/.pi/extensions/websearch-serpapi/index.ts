@@ -3,19 +3,22 @@ import { Type } from "@sinclair/typebox";
 
 const searchSchema = Type.Object({
   query: Type.String({ description: "What to search for. Be specific and descriptive." }),
-  numResults: Type.Optional(Type.Number({ description: "Number of results to return (default 5, max 10)" })),
+  numResults: Type.Optional(Type.Number({ description: "Number of results to return (default 10)" })),
+  engine: Type.Optional(
+    Type.String({ description: "Search engine: google, bing, yahoo, duckduckgo, etc. Default: google" }),
+  ),
+  country: Type.Optional(Type.String({ description: "2-char country code (e.g. us, gb, de)" })),
+  language: Type.Optional(Type.String({ description: "2-char language code (e.g. en, es, fr)" })),
 });
 
 interface SerpApiResult {
   title: string;
   link: string;
   snippet: string;
-  position: number;
 }
 
 interface SerpApiKnowledgeGraph {
   title?: string;
-  type?: string;
   description?: string;
 }
 
@@ -23,13 +26,13 @@ async function search(
   apiKey: string,
   query: string,
   num: number,
+  engine: string,
+  gl?: string,
+  hl?: string,
 ): Promise<{ organic: SerpApiResult[]; knowledgeGraph?: SerpApiKnowledgeGraph }> {
-  const params = new URLSearchParams({
-    q: query,
-    api_key: apiKey,
-    engine: "google",
-    num: String(num),
-  });
+  const params = new URLSearchParams({ q: query, api_key: apiKey, engine, num: String(num) });
+  if (gl) params.set("gl", gl);
+  if (hl) params.set("hl", hl);
 
   const res = await fetch(`https://serpapi.com/search.json?${params}`);
 
@@ -62,19 +65,27 @@ export default function (pi: ExtensionAPI) {
   pi.registerTool({
     name: "web_search",
     label: "Web Search",
-    description: "Search the web using SerpAPI (Google and 40+ other engines). Returns search results with snippets.",
+    description: "Search the web using SerpAPI. Supports Google, Bing, Yahoo, DuckDuckGo and 40+ other engines.",
     parameters: searchSchema,
 
     async execute(_toolCallId, params, _signal, _onUpdate, _ctx) {
       const apiKey = process.env.SERPAPI_API_KEY;
       if (!apiKey) throw new Error("SERPAPI_API_KEY not set");
 
-      const num = Math.min(params.numResults ?? 5, 10);
-      const { organic, knowledgeGraph } = await search(apiKey, params.query, num);
+      const num = Math.min(params.numResults ?? 10, 10);
+      const engine = params.engine ?? "google";
+      const { organic, knowledgeGraph } = await search(
+        apiKey,
+        params.query,
+        num,
+        engine,
+        params.country,
+        params.language,
+      );
 
       return {
         content: [{ type: "text", text: formatResults(organic, knowledgeGraph) }],
-        details: { provider: "serpapi", results: organic.length },
+        details: { provider: "serpapi", engine, results: organic.length },
       };
     },
   });

@@ -14,13 +14,14 @@ interface JinaResult {
 }
 
 async function search(apiKey: string, query: string, numResults: number): Promise<JinaResult[]> {
-  const res = await fetch(`https://s.jina.ai/${encodeURIComponent(query)}`, {
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${apiKey}`,
-      "X-Retain-Images": "none",
-    },
-  });
+  const headers: Record<string, string> = {
+    Accept: "application/json",
+    Authorization: `Bearer ${apiKey}`,
+    "X-Retain-Images": "none",
+  };
+  if (numResults) headers["X-Max-Results"] = String(numResults);
+
+  const res = await fetch(`https://s.jina.ai/${encodeURIComponent(query)}`, { headers });
 
   if (!res.ok) {
     const err = await res.text();
@@ -28,7 +29,7 @@ async function search(apiKey: string, query: string, numResults: number): Promis
   }
 
   const data = await res.json();
-  return (data.data ?? []).slice(0, numResults);
+  return data.data ?? [];
 }
 
 function formatResults(results: JinaResult[]): string {

@@ -3,7 +3,8 @@ import { Type } from "@sinclair/typebox";
 
 const searchSchema = Type.Object({
   query: Type.String({ description: "What to search for. Be specific and descriptive." }),
-  numResults: Type.Optional(Type.Number({ description: "Number of results to return (default 5, max 10)" })),
+  numResults: Type.Optional(Type.Number({ description: "Number of results to return (default 5, max 20)" })),
+  country: Type.Optional(Type.String({ description: "2-char country code (e.g. US, GB, DE)" })),
 });
 
 interface YouResult {
@@ -13,8 +14,10 @@ interface YouResult {
   snippets?: string[];
 }
 
-async function search(apiKey: string, query: string, numResults: number): Promise<YouResult[]> {
+async function search(apiKey: string, query: string, numResults: number, country?: string): Promise<YouResult[]> {
   const params = new URLSearchParams({ query, num_web_results: String(numResults) });
+  if (country) params.set("country", country);
+
   const res = await fetch(`https://api.ydc-index.io/search?${params}`, {
     headers: { "X-API-Key": apiKey },
   });
@@ -50,8 +53,8 @@ export default function (pi: ExtensionAPI) {
       const apiKey = process.env.YOU_API_KEY;
       if (!apiKey) throw new Error("YOU_API_KEY not set");
 
-      const numResults = Math.min(params.numResults ?? 5, 10);
-      const results = await search(apiKey, params.query, numResults);
+      const numResults = Math.min(params.numResults ?? 5, 20);
+      const results = await search(apiKey, params.query, numResults, params.country);
 
       return {
         content: [{ type: "text", text: formatResults(results) }],

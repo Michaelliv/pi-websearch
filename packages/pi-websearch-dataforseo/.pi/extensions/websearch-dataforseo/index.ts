@@ -3,22 +3,28 @@ import { Type } from "@sinclair/typebox";
 
 const searchSchema = Type.Object({
   query: Type.String({ description: "What to search for. Be specific and descriptive." }),
-  numResults: Type.Optional(Type.Number({ description: "Number of results to return (default 5, max 10)" })),
+  numResults: Type.Optional(Type.Number({ description: "Number of results to return (default 10)" })),
+  languageCode: Type.Optional(Type.String({ description: "Language code (e.g. en, es, fr). Default: en" })),
 });
 
 interface DataForSeoResult {
   title: string;
   url: string;
   description: string;
-  breadcrumb?: string;
 }
 
-async function search(login: string, password: string, query: string, depth: number): Promise<DataForSeoResult[]> {
+async function search(
+  login: string,
+  password: string,
+  query: string,
+  depth: number,
+  languageCode: string,
+): Promise<DataForSeoResult[]> {
   const auth = btoa(`${login}:${password}`);
   const res = await fetch("https://api.dataforseo.com/v3/serp/google/organic/live/advanced", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Basic ${auth}` },
-    body: JSON.stringify([{ keyword: query, depth }]),
+    body: JSON.stringify([{ keyword: query, depth, language_code: languageCode }]),
   });
 
   if (!res.ok) {
@@ -34,7 +40,6 @@ async function search(login: string, password: string, query: string, depth: num
       title: item.title ?? "",
       url: item.url ?? "",
       description: item.description ?? "",
-      breadcrumb: item.breadcrumb ?? "",
     }));
 }
 
@@ -48,8 +53,7 @@ export default function (pi: ExtensionAPI) {
   pi.registerTool({
     name: "web_search",
     label: "Web Search",
-    description:
-      "Search the web using DataForSEO (Google SERP). Returns Google search results at the lowest cost per query.",
+    description: "Search the web using DataForSEO (Google SERP). Lowest cost per query among SERP scrapers.",
     parameters: searchSchema,
 
     async execute(_toolCallId, params, _signal, _onUpdate, _ctx) {
@@ -57,8 +61,9 @@ export default function (pi: ExtensionAPI) {
       const password = process.env.DATAFORSEO_PASSWORD;
       if (!login || !password) throw new Error("DATAFORSEO_LOGIN and DATAFORSEO_PASSWORD not set");
 
-      const depth = Math.min(params.numResults ?? 5, 10);
-      const results = await search(login, password, params.query, depth);
+      const depth = Math.min(params.numResults ?? 10, 10);
+      const languageCode = params.languageCode ?? "en";
+      const results = await search(login, password, params.query, depth, languageCode);
 
       return {
         content: [{ type: "text", text: formatResults(results.slice(0, depth)) }],

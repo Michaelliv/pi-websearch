@@ -2,8 +2,14 @@ import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { Type } from "@sinclair/typebox";
 
 const searchSchema = Type.Object({
-  query: Type.String({ description: "What to search for. Be specific and descriptive." }),
+  query: Type.String({ description: "What to search for (max 400 chars, 50 words)." }),
   numResults: Type.Optional(Type.Number({ description: "Number of results to return (default 5, max 20)" })),
+  country: Type.Optional(Type.String({ description: "2-char country code for results origin (default: US)" })),
+  freshness: Type.Optional(
+    Type.Union([Type.Literal("pd"), Type.Literal("pw"), Type.Literal("pm"), Type.Literal("py")], {
+      description: "Filter by freshness: pd=past day, pw=past week, pm=past month, py=past year",
+    }),
+  ),
 });
 
 interface BraveResult {
@@ -13,8 +19,17 @@ interface BraveResult {
   extra_snippets?: string[];
 }
 
-async function search(apiKey: string, query: string, count: number): Promise<BraveResult[]> {
+async function search(
+  apiKey: string,
+  query: string,
+  count: number,
+  country?: string,
+  freshness?: string,
+): Promise<BraveResult[]> {
   const params = new URLSearchParams({ q: query, count: String(count) });
+  if (country) params.set("country", country);
+  if (freshness) params.set("freshness", freshness);
+
   const res = await fetch(`https://api.search.brave.com/res/v1/web/search?${params}`, {
     headers: { "X-Subscription-Token": apiKey, Accept: "application/json" },
   });
@@ -44,7 +59,7 @@ export default function (pi: ExtensionAPI) {
   pi.registerTool({
     name: "web_search",
     label: "Web Search",
-    description: "Search the web using Brave Search. Returns web results with descriptions and snippets.",
+    description: "Search the web using Brave Search. Independent index, not Google. Supports freshness filtering.",
     parameters: searchSchema,
 
     async execute(_toolCallId, params, _signal, _onUpdate, _ctx) {
@@ -52,7 +67,7 @@ export default function (pi: ExtensionAPI) {
       if (!apiKey) throw new Error("BRAVE_API_KEY not set");
 
       const count = Math.min(params.numResults ?? 5, 20);
-      const results = await search(apiKey, params.query, count);
+      const results = await search(apiKey, params.query, count, params.country, params.freshness);
 
       return {
         content: [{ type: "text", text: formatResults(results) }],
