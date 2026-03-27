@@ -37,7 +37,6 @@ export EXA_API_KEY=...
 | [`pi-websearch-linkup`](packages/pi-websearch-linkup) | [Linkup](https://linkup.so) | `LINKUP_API_KEY` |
 | [`pi-websearch-valyu`](packages/pi-websearch-valyu) | [Valyu](https://platform.valyu.ai) | `VALYU_API_KEY` |
 | [`pi-websearch-you`](packages/pi-websearch-you) | [You.com](https://you.com) | `YOU_API_KEY` |
-| [`pi-websearch-dataforseo`](packages/pi-websearch-dataforseo) | [DataForSEO](https://dataforseo.com) | `DATAFORSEO_LOGIN` + `DATAFORSEO_PASSWORD` |
 | [`pi-websearch-firecrawl`](packages/pi-websearch-firecrawl) | [Firecrawl](https://firecrawl.dev) | `FIRECRAWL_API_KEY` |
 | [`pi-websearch-jina`](packages/pi-websearch-jina) | [Jina AI](https://jina.ai) | `JINA_API_KEY` |
 

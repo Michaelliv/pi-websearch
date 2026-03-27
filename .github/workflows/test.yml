@@ -24,8 +24,7 @@ jobs:
           LINKUP_API_KEY: ${{ secrets.LINKUP_API_KEY }}
           VALYU_API_KEY: ${{ secrets.VALYU_API_KEY }}
           YOU_API_KEY: ${{ secrets.YOU_API_KEY }}
-          DATAFORSEO_LOGIN: ${{ secrets.DATAFORSEO_LOGIN }}
-          DATAFORSEO_PASSWORD: ${{ secrets.DATAFORSEO_PASSWORD }}
+
           FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
           JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
         run: bun run test:integration

@@ -1,7 +1,6 @@
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, mock, test } from "bun:test";
 import {
   brave,
-  dataforseo,
   exa,
   firecrawl,
   jina,
@@ -48,8 +47,7 @@ const fakeKeys: Record<string, string> = {
   LINKUP_API_KEY: "fake",
   VALYU_API_KEY: "fake",
   YOU_API_KEY: "fake",
-  DATAFORSEO_LOGIN: "fake",
-  DATAFORSEO_PASSWORD: "fake",
+
   FIRECRAWL_API_KEY: "fake",
   JINA_API_KEY: "fake",
 };
@@ -232,28 +230,6 @@ describe("you", () => {
     expect(results).toHaveLength(1);
     expect(results[0].content).toContain("snip1");
     expect(results[0].content).toContain("snip2");
-  });
-});
-
-describe("dataforseo", () => {
-  test("filters to organic results only", async () => {
-    setMockResponse({
-      tasks: [
-        {
-          result: [
-            {
-              items: [
-                { type: "organic", title: "Organic", url: "https://o.com", description: "desc" },
-                { type: "paid", title: "Ad", url: "https://a.com", description: "ad" },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-    const results = await dataforseo.search({ query: "test" });
-    expect(results).toHaveLength(1);
-    expect(results[0].title).toBe("Organic");
   });
 });
 

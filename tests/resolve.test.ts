@@ -41,14 +41,6 @@ describe("resolveProvider", () => {
     expect(resolveProvider()?.name).toBe("parallel");
   });
 
-  test("dataforseo requires both login and password", () => {
-    process.env.DATAFORSEO_LOGIN = "fake";
-    expect(resolveProvider()).toBeNull();
-
-    process.env.DATAFORSEO_PASSWORD = "fake";
-    expect(resolveProvider()?.name).toBe("dataforseo");
-  });
-
   test("custom provider list", () => {
     process.env.BRAVE_API_KEY = "fake";
     process.env.TAVILY_API_KEY = "fake";
@@ -56,8 +48,8 @@ describe("resolveProvider", () => {
     expect(resolveProvider(tavilyOnly)?.name).toBe("tavily");
   });
 
-  test("all 13 providers are registered", () => {
-    expect(allProviders).toHaveLength(13);
+  test("all 12 providers are registered", () => {
+    expect(allProviders).toHaveLength(12);
     const names = allProviders.map((p) => p.name);
     for (const expected of [
       "parallel",
@@ -72,7 +64,6 @@ describe("resolveProvider", () => {
       "perplexity",
       "serper",
       "serpapi",
-      "dataforseo",
     ]) {
       expect(names).toContain(expected);
     }

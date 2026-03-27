@@ -1,5 +1,4 @@
 export { brave } from "./providers/brave.js";
-export { dataforseo } from "./providers/dataforseo.js";
 export { exa } from "./providers/exa.js";
 export { firecrawl } from "./providers/firecrawl.js";
 export { jina } from "./providers/jina.js";
@@ -15,7 +14,6 @@ export type { SearchOptions, SearchProvider, SearchResult } from "./types.js";
 export { formatResults } from "./types.js";
 
 import { brave } from "./providers/brave.js";
-import { dataforseo } from "./providers/dataforseo.js";
 import { exa } from "./providers/exa.js";
 import { firecrawl } from "./providers/firecrawl.js";
 import { jina } from "./providers/jina.js";
@@ -43,7 +41,6 @@ export const allProviders: SearchProvider[] = [
   perplexity,
   serper,
   serpapi,
-  dataforseo,
 ];
 
 /** Find the first provider that has its env keys set. */
