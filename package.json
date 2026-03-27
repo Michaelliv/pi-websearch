@@ -3,9 +3,12 @@
   "private": true,
   "workspaces": ["packages/*"],
   "scripts": {
-    "lint": "biome check packages/",
-    "lint:fix": "biome check --write packages/",
-    "check": "bunx tsc --noEmit && biome check packages/"
+    "test": "bun test tests/",
+    "test:unit": "bun test tests/format.test.ts tests/resolve.test.ts tests/providers.test.ts",
+    "test:integration": "bun test tests/integration.test.ts",
+    "lint": "biome check packages/ tests/",
+    "lint:fix": "biome check --write packages/ tests/",
+    "check": "bun test tests/ && biome check packages/ tests/"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.9"
