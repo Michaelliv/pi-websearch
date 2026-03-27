@@ -58,3 +58,7 @@ packages/
 - **Router** uses `resolveProvider()` to find the first available provider and registers a generic `web_search` tool.
 
 Only install one package at a time - they all register the same `web_search` tool name.
+
+## Schemas
+
+![Schemas](schemas.png)
