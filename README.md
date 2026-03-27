@@ -1,6 +1,8 @@
 # pi-websearch
 
-Web search tools for [pi](https://github.com/badlogic/pi). 13 providers, pick what you need.
+Web search tools for [pi](https://github.com/badlogic/pi). 12 providers, pick what you need.
+
+![Architecture](architecture.png)
 
 ## Quick start - Router (recommended)
 
@@ -11,7 +13,7 @@ pi install pi-websearch-router
 export PARALLEL_API_KEY=...  # or any other provider's key
 ```
 
-The `web_search` tool is now available. The router checks for keys in this order: Parallel, Brave, Exa, You.com, Tavily, Firecrawl, Jina, Linkup, Valyu, Perplexity, Serper, SerpAPI, DataForSEO.
+The `web_search` tool is now available. The router checks for keys in this order: Parallel, Brave, Exa, You.com, Tavily, Firecrawl, Jina, Linkup, Valyu, Perplexity, Serper, SerpAPI.
 
 ## Pick a specific provider
 
@@ -51,7 +53,7 @@ packages/
 ├── ...
 ```
 
-- **`core`** exports `SearchProvider` interface, `SearchResult` type, `formatResults()`, all 13 provider implementations, and `resolveProvider()` for auto-detection.
+- **`core`** exports `SearchProvider` interface, `SearchResult` type, `formatResults()`, all 12 provider implementations, and `resolveProvider()` for auto-detection.
 - **Individual packages** are thin pi extension wrappers with provider-specific tool schemas.
 - **Router** uses `resolveProvider()` to find the first available provider and registers a generic `web_search` tool.
 
