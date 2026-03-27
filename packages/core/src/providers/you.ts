@@ -11,14 +11,15 @@ export const you: SearchProvider = {
     const params = new URLSearchParams({ query: options.query, num_web_results: String(options.numResults ?? 5) });
     if (options.country) params.set("country", options.country);
 
-    const res = await fetch(`https://api.ydc-index.io/search?${params}`, {
+    const res = await fetch(`https://ydc-index.io/v1/search?${params}`, {
       headers: { "X-API-Key": apiKey },
     });
 
     if (!res.ok) throw new Error(`You.com API error (${res.status}): ${await res.text()}`);
 
     const data = await res.json();
-    return (data.hits ?? []).map((r: { title: string; url: string; description: string; snippets?: string[] }) => ({
+    const webResults = data.results?.web ?? data.hits ?? [];
+    return webResults.map((r: { title: string; url: string; description: string; snippets?: string[] }) => ({
       title: r.title,
       url: r.url,
       content: r.snippets?.join("\n\n") ?? r.description ?? "",

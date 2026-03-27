@@ -224,7 +224,9 @@ describe("valyu", () => {
 describe("you", () => {
   test("parses hits with snippets", async () => {
     setMockResponse({
-      hits: [{ title: "You Result", url: "https://y.com", description: "desc", snippets: ["snip1", "snip2"] }],
+      results: {
+        web: [{ title: "You Result", url: "https://y.com", description: "desc", snippets: ["snip1", "snip2"] }],
+      },
     });
     const results = await you.search({ query: "test" });
     expect(results).toHaveLength(1);

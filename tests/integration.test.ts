@@ -8,22 +8,26 @@ function integrationTest(provider: SearchProvider) {
   const hasKeys = provider.envKeys.every((k) => process.env[k]);
 
   describe(provider.name, () => {
-    test.skipIf(!hasKeys)("search returns results", async () => {
-      const results = await provider.search({ query: "what is TypeScript", numResults: 3 });
-      expect(results.length).toBeGreaterThan(0);
+    test.skipIf(!hasKeys)(
+      "search returns results",
+      async () => {
+        const results = await provider.search({ query: "what is TypeScript", numResults: 3 });
+        expect(results.length).toBeGreaterThan(0);
 
-      for (const r of results) {
-        expect(r.title).toBeDefined();
-        expect(typeof r.title).toBe("string");
-        expect(typeof r.content).toBe("string");
-        expect(r.content.length).toBeGreaterThan(0);
-      }
+        for (const r of results) {
+          expect(r.title).toBeDefined();
+          expect(typeof r.title).toBe("string");
+          expect(typeof r.content).toBe("string");
+          expect(r.content.length).toBeGreaterThan(0);
+        }
 
-      // Verify formatResults doesn't throw
-      const formatted = formatResults(results);
-      expect(formatted).toContain("## 1.");
-      expect(formatted.length).toBeGreaterThan(50);
-    });
+        // Verify formatResults doesn't throw
+        const formatted = formatResults(results);
+        expect(formatted).toContain("## 1.");
+        expect(formatted.length).toBeGreaterThan(50);
+      },
+      15_000,
+    );
   });
 }
 
