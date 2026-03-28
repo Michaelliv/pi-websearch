@@ -1,6 +1,7 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { type ExtensionAPI, keyHint } from "@mariozechner/pi-coding-agent";
+import { Text } from "@mariozechner/pi-tui";
 import { Type } from "@sinclair/typebox";
-import { brave, formatResults } from "pi-websearch-core";
+import { brave, createRenderers, formatResults } from "pi-websearch-core";
 
 const searchSchema = Type.Object({
   query: Type.String({ description: "What to search for (max 400 chars, 50 words)." }),
@@ -12,6 +13,8 @@ const searchSchema = Type.Object({
     }),
   ),
 });
+
+const renderers = createRenderers(keyHint, Text);
 
 export default function (pi: ExtensionAPI) {
   pi.registerTool({
@@ -30,8 +33,10 @@ export default function (pi: ExtensionAPI) {
 
       return {
         content: [{ type: "text", text: formatResults(results) }],
-        details: { provider: "brave", results: results.length },
+        details: { provider: "brave", resultCount: results.length, items: results },
       };
     },
+
+    ...renderers,
   });
 }

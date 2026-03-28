@@ -1,6 +1,7 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { type ExtensionAPI, keyHint } from "@mariozechner/pi-coding-agent";
+import { Text } from "@mariozechner/pi-tui";
 import { Type } from "@sinclair/typebox";
-import { firecrawl, formatResults } from "pi-websearch-core";
+import { createRenderers, firecrawl, formatResults } from "pi-websearch-core";
 
 const searchSchema = Type.Object({
   query: Type.String({ description: "What to search for. Be specific and descriptive." }),
@@ -8,6 +9,8 @@ const searchSchema = Type.Object({
   country: Type.Optional(Type.String({ description: "Country code for localized results" })),
   language: Type.Optional(Type.String({ description: "Language code for results" })),
 });
+
+const renderers = createRenderers(keyHint, Text);
 
 export default function (pi: ExtensionAPI) {
   pi.registerTool({
@@ -25,8 +28,10 @@ export default function (pi: ExtensionAPI) {
       });
       return {
         content: [{ type: "text", text: formatResults(results) }],
-        details: { provider: "firecrawl", results: results.length },
+        details: { provider: "firecrawl", resultCount: results.length, items: results },
       };
     },
+
+    ...renderers,
   });
 }

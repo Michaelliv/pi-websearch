@@ -1,6 +1,7 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { type ExtensionAPI, keyHint } from "@mariozechner/pi-coding-agent";
+import { Text } from "@mariozechner/pi-tui";
 import { Type } from "@sinclair/typebox";
-import { formatResults, tavily } from "pi-websearch-core";
+import { createRenderers, formatResults, tavily } from "pi-websearch-core";
 
 const searchSchema = Type.Object({
   query: Type.String({ description: "What to search for. Be specific and descriptive." }),
@@ -18,6 +19,8 @@ const searchSchema = Type.Object({
   includeDomains: Type.Optional(Type.Array(Type.String(), { description: "Only include results from these domains" })),
   excludeDomains: Type.Optional(Type.Array(Type.String(), { description: "Exclude results from these domains" })),
 });
+
+const renderers = createRenderers(keyHint, Text);
 
 export default function (pi: ExtensionAPI) {
   pi.registerTool({
@@ -38,8 +41,10 @@ export default function (pi: ExtensionAPI) {
 
       return {
         content: [{ type: "text", text: formatResults(results) }],
-        details: { provider: "tavily", results: results.length },
+        details: { provider: "tavily", resultCount: results.length, items: results },
       };
     },
+
+    ...renderers,
   });
 }

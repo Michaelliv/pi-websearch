@@ -1,6 +1,7 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { type ExtensionAPI, keyHint } from "@mariozechner/pi-coding-agent";
+import { Text } from "@mariozechner/pi-tui";
 import { Type } from "@sinclair/typebox";
-import { formatResults, valyu } from "pi-websearch-core";
+import { createRenderers, formatResults, valyu } from "pi-websearch-core";
 
 const searchSchema = Type.Object({
   query: Type.String({ description: "What to search for. Be specific and descriptive." }),
@@ -12,6 +13,8 @@ const searchSchema = Type.Object({
   ),
   maxPrice: Type.Optional(Type.Number({ description: "Maximum budget per query in USD" })),
 });
+
+const renderers = createRenderers(keyHint, Text);
 
 export default function (pi: ExtensionAPI) {
   pi.registerTool({
@@ -29,8 +32,10 @@ export default function (pi: ExtensionAPI) {
       });
       return {
         content: [{ type: "text", text: formatResults(results) }],
-        details: { provider: "valyu", results: results.length },
+        details: { provider: "valyu", resultCount: results.length, items: results },
       };
     },
+
+    ...renderers,
   });
 }

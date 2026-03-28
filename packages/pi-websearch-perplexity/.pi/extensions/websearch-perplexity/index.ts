@@ -1,6 +1,7 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { type ExtensionAPI, keyHint } from "@mariozechner/pi-coding-agent";
+import { Text } from "@mariozechner/pi-tui";
 import { Type } from "@sinclair/typebox";
-import { formatResults, perplexity } from "pi-websearch-core";
+import { createRenderers, formatResults, perplexity } from "pi-websearch-core";
 
 const searchSchema = Type.Object({
   query: Type.String({ description: "What to search for. Be specific and descriptive." }),
@@ -13,6 +14,8 @@ const searchSchema = Type.Object({
     Type.Array(Type.String(), { description: "Filter to specific domains (prefix with - to exclude)" }),
   ),
 });
+
+const renderers = createRenderers(keyHint, Text);
 
 export default function (pi: ExtensionAPI) {
   pi.registerTool({
@@ -29,8 +32,10 @@ export default function (pi: ExtensionAPI) {
       });
       return {
         content: [{ type: "text", text: formatResults(results) }],
-        details: { provider: "perplexity", results: results.length },
+        details: { provider: "perplexity", resultCount: results.length, items: results },
       };
     },
+
+    ...renderers,
   });
 }

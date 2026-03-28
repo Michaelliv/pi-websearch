@@ -1,6 +1,7 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { type ExtensionAPI, keyHint } from "@mariozechner/pi-coding-agent";
+import { Text } from "@mariozechner/pi-tui";
 import { Type } from "@sinclair/typebox";
-import { formatResults, linkup } from "pi-websearch-core";
+import { createRenderers, formatResults, linkup } from "pi-websearch-core";
 
 const searchSchema = Type.Object({
   query: Type.String({ description: "What to search for. Be specific and descriptive." }),
@@ -10,6 +11,8 @@ const searchSchema = Type.Object({
     }),
   ),
 });
+
+const renderers = createRenderers(keyHint, Text);
 
 export default function (pi: ExtensionAPI) {
   pi.registerTool({
@@ -22,8 +25,10 @@ export default function (pi: ExtensionAPI) {
       const results = await linkup.search({ query: params.query, depth: params.depth });
       return {
         content: [{ type: "text", text: formatResults(results) }],
-        details: { provider: "linkup", results: results.length },
+        details: { provider: "linkup", resultCount: results.length, items: results },
       };
     },
+
+    ...renderers,
   });
 }

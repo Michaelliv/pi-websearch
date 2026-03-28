@@ -10,6 +10,7 @@ export { serper } from "./providers/serper.js";
 export { tavily } from "./providers/tavily.js";
 export { valyu } from "./providers/valyu.js";
 export { you } from "./providers/you.js";
+export { createRenderers } from "./renderers.js";
 export type { SearchOptions, SearchProvider, SearchResult } from "./types.js";
 export { formatResults } from "./types.js";
 
