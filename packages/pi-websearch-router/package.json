@@ -10,7 +10,8 @@
   },
   "peerDependencies": {
     "@mariozechner/pi-coding-agent": "*",
-    "@sinclair/typebox": "*"
+    "@sinclair/typebox": "*",
+    "@mariozechner/pi-tui": "*"
   },
   "pi": {
     "extensions": [
@@ -18,5 +19,8 @@
     ]
   },
   "author": "michaelliv",
-  "license": "MIT"
+  "license": "MIT",
+  "bundledDependencies": [
+    "pi-websearch-core"
+  ]
 }
