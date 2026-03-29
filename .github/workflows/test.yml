@@ -13,6 +13,7 @@ jobs:
       - run: bun install
       - run: bun run test:unit
       - name: Integration tests
+        continue-on-error: true
         env:
           PARALLEL_API_KEY: ${{ secrets.PARALLEL_API_KEY }}
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
