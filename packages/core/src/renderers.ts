@@ -16,6 +16,7 @@ export function createRenderers(keyHint: (id: string, desc: string) => string, T
       { expanded }: { expanded: boolean; isPartial: boolean },
       theme: any,
     ) {
+
       const details = result.details ?? {};
       const items: SearchResult[] = details.items ?? [];
       const count = details.resultCount ?? items.length;
