@@ -41,6 +41,6 @@ jobs:
         env:
           NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          for dir in packages/*/; do
+          for dir in packages/pi-websearch-*/; do
             (cd "$dir" && bun publish --access public --tolerate-republish) || true
           done
