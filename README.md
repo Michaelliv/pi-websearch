@@ -62,3 +62,7 @@ Only install one package at a time - they all register the same `web_search` too
 ## Schemas
 
 ![Schemas](schemas.png)
+
+## License
+
+MIT
