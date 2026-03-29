@@ -17,11 +17,8 @@ export default function (pi: ExtensionAPI) {
 
   if (!provider) {
     const keys = allProviders.map((p) => p.envKeys.join(" + ")).join(", ");
-    console.warn(`[websearch-router] No search provider configured. Set one of: ${keys}`);
     return;
   }
-
-  console.log(`[websearch-router] Using provider: ${provider.name}`);
 
   pi.registerTool({
     name: "web_search",
