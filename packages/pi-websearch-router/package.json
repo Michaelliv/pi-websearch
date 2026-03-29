@@ -1,6 +1,6 @@
 {
   "name": "pi-websearch-router",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pi web search tool that auto-detects available API keys and routes to the right provider",
   "keywords": [
     "pi-package"
