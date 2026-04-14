@@ -9,7 +9,7 @@ Web search tools for [pi](https://github.com/badlogic/pi). 12 providers, pick wh
 Install the router - it auto-detects which API key you have and uses that provider:
 
 ```bash
-pi install pi-websearch-router
+pi install npm:pi-websearch-router
 export PARALLEL_API_KEY=...  # or any other provider's key
 ```
 
@@ -20,7 +20,7 @@ The `web_search` tool is now available. The router checks for keys in this order
 If you want provider-specific parameters (e.g. Exa's date filtering, Brave's freshness filter), install that provider directly:
 
 ```bash
-pi install pi-websearch-exa
+pi install npm:pi-websearch-exa
 export EXA_API_KEY=...
 ```
 
