@@ -1,6 +1,6 @@
 # pi-websearch
 
-Web search tools for [pi](https://github.com/badlogic/pi). 12 providers, pick what you need.
+Web search tools for [pi](https://github.com/badlogic/pi-mono). 12 providers, pick what you need.
 
 ![Architecture](architecture.png)
 
