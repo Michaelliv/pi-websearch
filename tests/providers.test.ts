@@ -52,11 +52,16 @@ const fakeKeys: Record<string, string> = {
   JINA_API_KEY: "fake",
 };
 const savedKeys: Record<string, string | undefined> = {};
+const optionalEnvKeys = ["FIRECRAWL_URL"];
 
 beforeEach(() => {
   for (const [k, v] of Object.entries(fakeKeys)) {
     savedKeys[k] = process.env[k];
     process.env[k] = v;
+  }
+  for (const k of optionalEnvKeys) {
+    savedKeys[k] = process.env[k];
+    delete process.env[k];
   }
 });
 
@@ -241,6 +246,16 @@ describe("firecrawl", () => {
     const results = await firecrawl.search({ query: "test" });
     expect(results).toHaveLength(1);
     expect(results[0].content).toBe("# Full markdown content");
+  });
+
+  test("uses FIRECRAWL_URL when set", async () => {
+    process.env.FIRECRAWL_URL = "http://localhost:3002/";
+    setMockResponse({ data: [] });
+
+    await firecrawl.search({ query: "test" });
+
+    const calls = (globalThis.fetch as unknown as { mock: { calls: unknown[][] } }).mock.calls;
+    expect(calls[calls.length - 1]?.[0]).toBe("http://localhost:3002/v1/search");
   });
 });
 
