@@ -239,6 +239,10 @@ describe("you", () => {
 });
 
 describe("firecrawl", () => {
+  test("lists FIRECRAWL_URL as an env key", () => {
+    expect(firecrawl.envKeys).toContain("FIRECRAWL_URL");
+  });
+
   test("prefers markdown over description", async () => {
     setMockResponse({
       data: [{ url: "https://f.com", title: "Page", description: "short", markdown: "# Full markdown content" }],
