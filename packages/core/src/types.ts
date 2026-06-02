@@ -20,8 +20,10 @@ export interface SearchOptions {
 export interface SearchProvider {
   /** Provider identifier (e.g. "brave", "exa"). */
   name: string;
-  /** Environment variable names required. First one found enables the provider. */
+  /** Environment variable names required to enable the provider. */
   envKeys: string[];
+  /** Optional environment variable names that configure the provider. */
+  optionalEnvKeys?: string[];
   /** Execute a search and return normalized results. */
   search(options: SearchOptions & Record<string, unknown>): Promise<SearchResult[]>;
 }
