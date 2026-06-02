@@ -1,6 +1,6 @@
 {
   "name": "pi-websearch-valyu",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "Pi web search tool powered by Valyu (academic and paywalled sources)",
   "keywords": [
     "pi-package"
