@@ -239,8 +239,9 @@ describe("you", () => {
 });
 
 describe("firecrawl", () => {
-  test("lists FIRECRAWL_URL as an env key", () => {
-    expect(firecrawl.envKeys).toContain("FIRECRAWL_URL");
+  test("lists FIRECRAWL_URL as an optional env key", () => {
+    expect(firecrawl.envKeys).not.toContain("FIRECRAWL_URL");
+    expect(firecrawl.optionalEnvKeys ?? []).toContain("FIRECRAWL_URL");
   });
 
   test("prefers markdown over description", async () => {

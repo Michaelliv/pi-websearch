@@ -26,8 +26,8 @@ export EXA_API_KEY=...
 
 ## Packages
 
-| Package | Provider | Env var |
-|---------|----------|---------|
+| Package | Provider | Required env var |
+|---------|----------|------------------|
 | **[`pi-websearch-router`](packages/pi-websearch-router)** | **Auto-detect** | **Any below** |
 | [`pi-websearch-parallel`](packages/pi-websearch-parallel) | [Parallel](https://parallel.ai) | `PARALLEL_API_KEY` |
 | [`pi-websearch-brave`](packages/pi-websearch-brave) | [Brave Search](https://brave.com/search/api/) | `BRAVE_API_KEY` |
@@ -41,6 +41,10 @@ export EXA_API_KEY=...
 | [`pi-websearch-you`](packages/pi-websearch-you) | [You.com](https://you.com) | `YOU_API_KEY` |
 | [`pi-websearch-firecrawl`](packages/pi-websearch-firecrawl) | [Firecrawl](https://firecrawl.dev) | `FIRECRAWL_API_KEY` |
 | [`pi-websearch-jina`](packages/pi-websearch-jina) | [Jina AI](https://jina.ai) | `JINA_API_KEY` |
+
+Optional provider configuration:
+
+- Firecrawl: set `FIRECRAWL_URL` to use a custom Firecrawl-compatible API endpoint. Defaults to `https://api.firecrawl.dev`.
 
 ## Architecture
 

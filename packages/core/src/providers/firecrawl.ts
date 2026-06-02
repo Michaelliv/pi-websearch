@@ -4,7 +4,8 @@ const DEFAULT_FIRECRAWL_URL = "https://api.firecrawl.dev";
 
 export const firecrawl: SearchProvider = {
   name: "firecrawl",
-  envKeys: ["FIRECRAWL_API_KEY", "FIRECRAWL_URL"],
+  envKeys: ["FIRECRAWL_API_KEY"],
+  optionalEnvKeys: ["FIRECRAWL_URL"],
 
   async search(options: SearchOptions): Promise<SearchResult[]> {
     const apiKey = process.env.FIRECRAWL_API_KEY;

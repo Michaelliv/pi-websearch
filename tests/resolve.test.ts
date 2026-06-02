@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
-import { allProviders, resolveProvider } from "../packages/core/src/index.js";
+import { allProviders, firecrawl, resolveProvider } from "../packages/core/src/index.js";
 
 describe("resolveProvider", () => {
   const savedEnv: Record<string, string | undefined> = {};
-  const allKeys = allProviders.flatMap((p) => p.envKeys);
+  const allKeys = allProviders.flatMap((p) => [...p.envKeys, ...(p.optionalEnvKeys ?? [])]);
 
   beforeEach(() => {
     for (const k of allKeys) {
@@ -46,6 +46,12 @@ describe("resolveProvider", () => {
     process.env.TAVILY_API_KEY = "fake";
     const tavilyOnly = allProviders.filter((p) => p.name === "tavily");
     expect(resolveProvider(tavilyOnly)?.name).toBe("tavily");
+  });
+
+  test("firecrawl resolves with only its required API key", () => {
+    process.env.FIRECRAWL_API_KEY = "fake";
+    delete process.env.FIRECRAWL_URL;
+    expect(resolveProvider([firecrawl])?.name).toBe("firecrawl");
   });
 
   test("all 12 providers are registered", () => {
