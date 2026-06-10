@@ -10,159 +10,161 @@
     },
     "packages/core": {
       "name": "pi-websearch-core",
-      "version": "0.1.0",
+      "version": "0.2.3",
     },
     "packages/pi-websearch-brave": {
       "name": "pi-websearch-brave",
-      "version": "0.1.0",
+      "version": "0.2.3",
       "dependencies": {
-        "pi-websearch-core": "workspace:*",
+        "pi-websearch-core": "0.2.3",
       },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
-        "@sinclair/typebox": "*",
-      },
-    },
-    "packages/pi-websearch-dataforseo": {
-      "name": "pi-websearch-dataforseo",
-      "version": "0.1.0",
-      "dependencies": {
-        "pi-websearch-core": "workspace:*",
-      },
-      "peerDependencies": {
-        "@mariozechner/pi-coding-agent": "*",
+        "@mariozechner/pi-tui": "*",
         "@sinclair/typebox": "*",
       },
     },
     "packages/pi-websearch-exa": {
       "name": "pi-websearch-exa",
-      "version": "0.1.0",
+      "version": "0.2.3",
       "dependencies": {
-        "pi-websearch-core": "workspace:*",
+        "pi-websearch-core": "0.2.3",
       },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
+        "@mariozechner/pi-tui": "*",
         "@sinclair/typebox": "*",
       },
     },
     "packages/pi-websearch-firecrawl": {
       "name": "pi-websearch-firecrawl",
-      "version": "0.1.0",
+      "version": "0.2.3",
       "dependencies": {
-        "pi-websearch-core": "workspace:*",
+        "pi-websearch-core": "0.2.3",
       },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
+        "@mariozechner/pi-tui": "*",
         "@sinclair/typebox": "*",
       },
     },
     "packages/pi-websearch-jina": {
       "name": "pi-websearch-jina",
-      "version": "0.1.0",
+      "version": "0.2.3",
       "dependencies": {
-        "pi-websearch-core": "workspace:*",
+        "pi-websearch-core": "0.2.3",
       },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
+        "@mariozechner/pi-tui": "*",
         "@sinclair/typebox": "*",
       },
     },
     "packages/pi-websearch-linkup": {
       "name": "pi-websearch-linkup",
-      "version": "0.1.0",
+      "version": "0.2.3",
       "dependencies": {
-        "pi-websearch-core": "workspace:*",
+        "pi-websearch-core": "0.2.3",
       },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
+        "@mariozechner/pi-tui": "*",
         "@sinclair/typebox": "*",
       },
     },
     "packages/pi-websearch-parallel": {
       "name": "pi-websearch-parallel",
-      "version": "0.1.0",
+      "version": "0.2.3",
       "dependencies": {
-        "pi-websearch-core": "workspace:*",
+        "pi-websearch-core": "0.2.3",
       },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
+        "@mariozechner/pi-tui": "*",
         "@sinclair/typebox": "*",
       },
     },
     "packages/pi-websearch-perplexity": {
       "name": "pi-websearch-perplexity",
-      "version": "0.1.0",
+      "version": "0.2.3",
       "dependencies": {
-        "pi-websearch-core": "workspace:*",
+        "pi-websearch-core": "0.2.3",
       },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
+        "@mariozechner/pi-tui": "*",
         "@sinclair/typebox": "*",
       },
     },
     "packages/pi-websearch-router": {
       "name": "pi-websearch-router",
-      "version": "0.1.0",
+      "version": "0.2.3",
       "dependencies": {
-        "pi-websearch-core": "workspace:*",
+        "pi-websearch-core": "0.2.3",
       },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
+        "@mariozechner/pi-tui": "*",
         "@sinclair/typebox": "*",
       },
     },
     "packages/pi-websearch-serpapi": {
       "name": "pi-websearch-serpapi",
-      "version": "0.1.0",
+      "version": "0.2.3",
       "dependencies": {
-        "pi-websearch-core": "workspace:*",
+        "pi-websearch-core": "0.2.3",
       },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
+        "@mariozechner/pi-tui": "*",
         "@sinclair/typebox": "*",
       },
     },
     "packages/pi-websearch-serper": {
       "name": "pi-websearch-serper",
-      "version": "0.1.0",
+      "version": "0.2.3",
       "dependencies": {
-        "pi-websearch-core": "workspace:*",
+        "pi-websearch-core": "0.2.3",
       },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
+        "@mariozechner/pi-tui": "*",
         "@sinclair/typebox": "*",
       },
     },
     "packages/pi-websearch-tavily": {
       "name": "pi-websearch-tavily",
-      "version": "0.1.0",
+      "version": "0.2.3",
       "dependencies": {
-        "pi-websearch-core": "workspace:*",
+        "pi-websearch-core": "0.2.3",
       },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
+        "@mariozechner/pi-tui": "*",
         "@sinclair/typebox": "*",
       },
     },
     "packages/pi-websearch-valyu": {
       "name": "pi-websearch-valyu",
-      "version": "0.1.0",
+      "version": "0.2.3",
       "dependencies": {
-        "pi-websearch-core": "workspace:*",
+        "pi-websearch-core": "0.2.3",
       },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
+        "@mariozechner/pi-tui": "*",
         "@sinclair/typebox": "*",
       },
     },
     "packages/pi-websearch-you": {
       "name": "pi-websearch-you",
-      "version": "0.1.0",
+      "version": "0.2.3",
       "dependencies": {
-        "pi-websearch-core": "workspace:*",
+        "pi-websearch-core": "0.2.3",
       },
       "peerDependencies": {
         "@mariozechner/pi-coding-agent": "*",
+        "@mariozechner/pi-tui": "*",
         "@sinclair/typebox": "*",
       },
     },
@@ -607,8 +609,6 @@
     "pi-websearch-brave": ["pi-websearch-brave@workspace:packages/pi-websearch-brave"],
 
     "pi-websearch-core": ["pi-websearch-core@workspace:packages/core"],
-
-    "pi-websearch-dataforseo": ["pi-websearch-dataforseo@workspace:packages/pi-websearch-dataforseo"],
 
     "pi-websearch-exa": ["pi-websearch-exa@workspace:packages/pi-websearch-exa"],
 

@@ -1,6 +1,6 @@
 {
   "name": "pi-websearch-serpapi",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pi web search tool powered by SerpAPI",
   "keywords": [
     "pi-package"
@@ -18,9 +18,6 @@
   "author": "michaelliv",
   "license": "MIT",
   "dependencies": {
-    "pi-websearch-core": "workspace:*"
-  },
-  "bundledDependencies": [
-    "pi-websearch-core"
-  ]
+    "pi-websearch-core": "0.2.3"
+  }
 }
